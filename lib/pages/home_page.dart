@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttermytrip/dao/home_dao.dart';
-import 'package:fluttermytrip/model/home_model.dart';
+import 'package:fluttermytrip/model/home_model_entity.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 class HomePage extends StatefulWidget {
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll(double pixels) {
-    print(pixels);
+//    print(pixels);
     double alpha = pixels/APPBAR_SCROLL_OFFSET;
     if(alpha<0){
       alpha=0;
@@ -115,9 +115,9 @@ class _HomePageState extends State<HomePage> {
 //    });
 
    try{
-     HomeModel model = await HomeDao.fetch();
+     HomeModelEntity model = await HomeDao.fetch();
      setState(() {
-       resultString = json.encode(model);
+       resultString = json.encode(model.config);
      });
    }catch(e){
      setState(() {
