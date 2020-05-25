@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttermytrip/dao/home_dao.dart';
-import 'package:fluttermytrip/model/home_model_entity.dart';
+import 'package:fluttermytrip/model/common_module.dart';
+import 'package:fluttermytrip/model/home_module.dart';
+import 'package:fluttermytrip/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 class HomePage extends StatefulWidget {
@@ -14,7 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   double appBarAlpha = 0;
-  String resultString = "";
+  String resultString = "resultString";
+  List<CommonModel> localNavList = [];
 
   @override
   void initState(){
@@ -24,18 +27,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     List _imageUrl = [
       "http://www.devio.org/io/flutter_app/img/banner/100h10000000q7ght9352.jpg",
       "https://dimg04.c-ctrip.com/images/300h0u000000j05rnD96B_C_500_280.jpg",
       "http://pages.ctrip.com/hotel/201811/jdsc_640es_tab1.jpg",
       "https://dimg03.c-ctrip.com/images/fd/tg/g1/M03/7E/19/CghzfVWw6OaACaJXABqNWv6ecpw824_C_500_280_Q90.jpg",
     ];
-
-
-
     return Scaffold(
+      backgroundColor: Color(0xfff2f2f2),
       body: Stack(
         children: <Widget>[
           MediaQuery.removePadding(context: context,
@@ -64,8 +63,11 @@ class _HomePageState extends State<HomePage> {
                         },
                         pagination: SwiperPagination(),
                       ),
-                    )
-                    ,Container(
+                    ),
+                    Padding(padding:EdgeInsets.fromLTRB(7, 4, 7, 4),
+                    child: LocalNav(localNavList: localNavList),),
+
+                    Container(
                       height: 800,
                       child: ListTile(title: Text(resultString),),
                     )
@@ -115,13 +117,13 @@ class _HomePageState extends State<HomePage> {
 //    });
 
    try{
-     HomeModelEntity model = await HomeDao.fetch();
+     HomeModel model = await HomeDao.fetch();
      setState(() {
-       resultString = json.encode(model.config);
+       localNavList = model.localNavList;
      });
    }catch(e){
      setState(() {
-       resultString = e.toString();
+       print(e);
      });
    }
   }
