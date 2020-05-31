@@ -67,6 +67,7 @@ class _WebViewState extends State<WebView> {
   _isToMain(String url) {
     bool contain = false;
     for (final value in CATCH_URLS) {
+      // url 空时，或者不包含的情况，直接为 false
       if (url?.endsWith(value) ?? false) {
         contain = true;
         break;
